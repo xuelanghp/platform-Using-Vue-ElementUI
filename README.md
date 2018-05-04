@@ -30,3 +30,10 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+
+## 备注
+
+  - 此项目基于 [element-starter](https://github.com/ElementUI/element-starter) 做的二次开发，
+  - 完善了webpack proxy代理，解决开发过程中的跨域问题
+  - ![后台截图](http://7xsnc0.com1.z0.glb.clouddn.com/fontend/2018419/imgs/platform1.png
+)
