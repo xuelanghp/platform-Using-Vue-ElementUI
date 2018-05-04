@@ -37,10 +37,11 @@ router.beforeEach((to, from, next) => {
 			ElementUI.Message({
 				message:'你还未登录',
 				type:'warning',//success/warning/info/error
-				duration:3000,
+				duration:1200,
 				showClose:true,
 				onClose(){
-					next({ name:'login', params: { go : to.name }});
+					// next({ name:'login', params: { go : to.name }});
+					location.href="./sign.html"
 				}
 			});
 		}else{

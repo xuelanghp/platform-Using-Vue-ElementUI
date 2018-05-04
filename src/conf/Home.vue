@@ -2,7 +2,7 @@
     <el-container>
         <!-- 1 header -->
         <el-header>
-            <div class="logo">奥买家营销中心</div>
+            <div class="logo" @click="goHome">奥买家营销中心</div>
             <div class="nav">
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
                     <el-menu-item index="1">提报系统</el-menu-item>
@@ -21,13 +21,13 @@
                 </el-menu>
             </div>
             <div class="info">
-                欢迎，{{name}} <el-button type="text">退出</el-button>
+                <span class="menu el-icon-menu" @click="changeMenu" title="右导航显示/隐藏"></span>欢迎，{{name}} <el-button type="text" @click="logOut">退出</el-button>
             </div>
         </el-header>
 
         <el-container>
             <!-- 2 aside左侧导航 -->
-            <div class="main-aside">
+            <div class="main-aside" :class="{'hide':hide}">
                 <div class="inner">
                     <router-link v-for="route in routes" :to="route.path" tag="li">{{route.label}}</router-link>
                 </div>
@@ -57,15 +57,18 @@ export default {
             name:'小明',
             routes:[],//this.$parent.$router.options.routes,
             activeIndex: '1',
+            hide:false
         }
     },
     created(){
-        this.routes = Nav[this.activeIndex-1]
+        this.routes = Nav[this.activeIndex-1];
+        this.fetchData();
     },
     methods:{
         fetchData(){
-            let _hash = window.location.hash;
             // console.log('Home-$query:',this.$route.query);  // $route.params, $route.query
+            let _name = localStorage._nick?localStorage._nick:'???';
+            this.name = _name;
         },
         getRoutes(arr,target){
             let k = arr[0]-1,
@@ -83,7 +86,27 @@ export default {
             var _arr = key.split('-');
             this.routes = this.getRoutes(_arr,Nav);
             this.$root.$router.push(this.routes[0]);// this.$parent.$router.push(this.routes[0]);
-        }    
+        },
+        changeMenu(){
+            this.hide = !this.hide
+        },
+        goHome(){
+            this.$root.$router.push({ name:'index'});
+        },
+        logOut(){
+            localStorage.clear();
+            this.name = '???';
+            this.$message({
+                message:'你已退出登录',
+                type:'warning',//success/warning/info/error
+                duration:1200,
+                showClose:true,
+                onClose(){
+                    // next({ name:'login', params: { go : to.name }});
+                    location.href="./sign.html"
+                }
+            });
+        }
     },
     watch: {
         '$route': 'fetchData' // 如果路由有变化，会再次执行该方法
@@ -122,6 +145,7 @@ body > .el-container {
     width:210px;    
     font-size:22px;
     font-weight:700;
+    cursor:pointer;
     position: absolute;
     left:0;
 }
@@ -137,6 +161,11 @@ body > .el-container {
     top:0;
     text-align: right;
 }
+.el-header .info .menu{
+    margin-right:15px;
+    cursor:pointer;
+}
+
 .main-aside {
     width:200px;
     color: #333;
@@ -144,6 +173,11 @@ body > .el-container {
     background-color: #f0f0f0;
     border-right:solid 1px #eee;
     box-sizing: border-box;
+    overflow:hidden;
+    transition: width .2s;
+}
+.main-aside.hide{
+    width:0;
 }
 .main-aside .inner{
     padding:20px;

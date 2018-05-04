@@ -7,8 +7,8 @@ const publicPath = ''
 
 module.exports = (options = {}) => ({
     entry: {
-        vendor: './src/vendor',
-        index: './src/main.js'
+        main: './src/main.js',
+        sign:'./src/sign.js'
     },
     output: {
         path: resolve(__dirname, 'dist'),
@@ -17,32 +17,46 @@ module.exports = (options = {}) => ({
         publicPath: options.dev ? '/' : publicPath
     },
     module: {
-        rules: [{
-            test: /\.vue$/,
-            use: ['vue-loader']
-        }, {
-            test: /\.js$/,
-            use: ['babel-loader'],
-            exclude: /node_modules/
-        }, {
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader', 'postcss-loader']
-        }, {
-            test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-            use: [{
-                loader: 'url-loader',
-                options: {
-                    limit: 10000
-                }
-            }]
-        }]
+        rules: [
+            {
+                test: /\.vue$/,
+                use: ['vue-loader']
+            }, 
+            {
+                test: /\.js$/,
+                use: ['babel-loader'],
+                exclude: /node_modules/
+            }, 
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader']
+            }, 
+            {
+                test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000
+                    }
+                }]
+            }
+        ]
     },
     plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'manifest']
-    }), new HtmlWebpackPlugin({
-        template: 'src/index.html'
-    })],
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     names: ['vendor', 'manifest']
+        // }),
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            filename:'index.html',
+            chunks:['main'],
+        }),
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            filename:'sign.html',
+            chunks:['sign'],
+        })
+    ],
     resolve: {
         alias: {
             '~': resolve(__dirname, 'src')

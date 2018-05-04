@@ -65,11 +65,12 @@ export default {
                 _password = this.form.password;
 
             if(_name!='' && _password!=''){
-                localStorage._nick = '__' + _name + _password;
+                localStorage._nick = '__' + _name ;
+                localStorage._pwd = '__'+ _password;
                 this.$message({
-                    message:'恭喜 , 登录成功!',
+                    message:`恭喜${_name} , 登录成功!`,
                     type:'success',//success/warning/info/error
-                    duration:2000,
+                    duration:1200,
                     showClose:true,
                     onClose(){
                         _self.$parent.$router.push({ name: 'index', query: { plan: 'private' }})

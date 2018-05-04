@@ -8,8 +8,8 @@
 
         <div class="gap">
             <el-carousel :interval="5000" arrow="always">
-                <el-carousel-item v-for="item in 4" :key="item">
-                    <h3>{{ item }}</h3>
+                <el-carousel-item v-for="item in carousel" :key="item">
+                    <div class="c-li" v-bind:style=" 'background:url('+item+') no-repeat center center;background-size: 100% auto; */'"></div>
                 </el-carousel-item>
             </el-carousel>
         </div>
@@ -21,6 +21,12 @@ export default {
     data(){
         return {
             mark: null,
+            carousel:[
+                'http://img.zcool.cn/community/0381de85949053ca8012193a3339cc5.jpg',
+                'http://i1.hoopchina.com/user/904/339904/1260861415a059bbig.jpg',
+                'http://image1.92bizhi.com/art_green-widescreen_01-2560x1600.jpg',
+                'http://pic.90sjimg.com/design/00/07/77/64/561220e153181.jpg'
+            ]
         }
     },
     created(){
@@ -52,5 +58,8 @@ export default {
   
 .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+}
+.c-li{
+    height:100%;
 }
 </style>
